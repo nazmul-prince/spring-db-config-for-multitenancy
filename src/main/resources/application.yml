@@ -1,0 +1,93 @@
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://192.168.1.127:8191/realms/ec
+          jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
+  write:
+    datasource:
+      url: jdbc:postgresql://192.168.1.137:5432/nazmul
+      username: postgres
+      password: ENC(ShgDc/gJlVf5zdl6JgOqIl+k9cikH0idHgYPe2xacl9SXEBrbYMA1a0kMBryDoME)
+  read:
+    datasource:
+      url: jdbc:postgresql://192.168.1.137:5432/nazmul
+      username: read_db
+      password: ENC(ShgDc/gJlVf5zdl6JgOqIl+k9cikH0idHgYPe2xacl9SXEBrbYMA1a0kMBryDoME)
+  flyway:
+    url: jdbc:postgresql://192.168.1.137:5432/nazmul
+    user: postgres
+    password: ENC(ShgDc/gJlVf5zdl6JgOqIl+k9cikH0idHgYPe2xacl9SXEBrbYMA1a0kMBryDoME)
+    enabled: true
+    locations: classpath:db/migration
+    validate-on-migrate: false
+  data:
+    redis:
+      host: 192.168.1.137
+      port: 6379
+      timeout: 15000
+      lettuce:
+        pool:
+          max-active: 8
+          max-idle: 8
+          min-idle: 8
+          max-wait: 5000
+  rabbitmq:
+    host: 192.168.1.137
+    port: 5672
+    username: ENC(ullTMlApyT9L1MCDoS4XBdOG/9UcmXemoTQHY/9myKh+Op7lfNOYmTSEsS0A0asX)
+    password: ENC(ullTMlApyT9L1MCDoS4XBdOG/9UcmXemoTQHY/9myKh+Op7lfNOYmTSEsS0A0asX)
+    common:
+      queue: q.common
+      topic-exchange: x.common-topic-exchange
+      routing-key: r.common-routing-key
+    listener:
+      simple:
+        retry:
+          enabled: true
+          initial-interval: 2s
+          max-attempts: 5
+          max-interval: 20s
+          multiplier: 2
+
+#  jpa:
+#    show-sql: true
+#    properties:
+#      org:
+#        hibernate:
+#          format_sql: true
+#          envers:
+#            audit_strategy: org.hibernate.envers.strategy.ValidityAuditStrategy
+#            audit_strategy_validity_store_revend_timestamp: true
+#            store_data_at_delete: true
+
+jwt:
+  auth:
+    converter:
+      resource-id: ec-private-cli
+      principal-attribute: preferred_username
+
+tracing:
+  url: http://192.168.1.82:4318/v1/traces
+
+page: 0
+size: 10000
+
+ec:
+  cache:
+    enabled: true
+  jwt:
+    default: false
+
+server:
+  max-http-request-header-size: 16KB
+  port: 8086
+  servlet:
+    context-path: "/multitenancy"
+
+
+jasypt:
+  encryptor:
+    password: Penta2024
+
